@@ -8,7 +8,7 @@ type LiveMatchCardProps = {
   
   export default function LiveMatchCard({ teamA, teamB, time, venue, status }: LiveMatchCardProps) {
     return (
-      <div className="bg-white p-4 rounded-xl shadow text-center border">
+      <div className="bg-white p-4 rounded-xl shadow text-center border transition hover:shadow-lg">
         <div className="text-lg font-semibold">{teamA} 🆚 {teamB}</div>
         <div className="text-sm text-gray-500">{time} | {venue}</div>
         <div
