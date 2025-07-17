@@ -1,30 +1,46 @@
+import { NextResponse } from "next/server";
+
+let cache: any = null;
+let lastFetchTime = 0;
+const CACHE_DURATION = 120 * 60 * 1000;
+
 export async function GET(req: Request) {
+
+    const now = Date.now();
 
     const { searchParams } = new URL(req.url);
     const type = searchParams.get('type');
 
+    //serve cache data if still fresh
+    if (cache && now - lastFetchTime < CACHE_DURATION && type == "points") {
+        return NextResponse.json({data: cache, cached: true});
+    }
+
     try {
         if (type === 'points') {
             const data = await fetchPointsTable();
-            return Response.json({ success: true, data });
+            // update cache
+            cache = data;
+            lastFetchTime = now;
+            return NextResponse.json({ success: true, data });
         }
         if (type === 'schedule') {
             const data = await fetchMatchSchedule();
-            return Response.json({ success: true, data });
+            return NextResponse.json({ success: true, data });
         }
         // if (type === 'pointsTable') {
         //     const data = await fetchPointsTable();
         //     return Response.json({success: true, data});
         // }
 
-        return Response.json({
+        return NextResponse.json({
             error: 'Invalid type parameter'
         },
             { status: 400 }
         );
 
     } catch (err) {
-        return Response.json({
+        return NextResponse.json({
             error: 'failed to fetch or parse data', details: (err as Error).message
         }, { status: 500 })
     }

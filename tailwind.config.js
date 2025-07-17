@@ -6,7 +6,11 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',      // If you're using /pages
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        lightBackground: '#000',
+    },
   },
+},
   plugins: [],
 }

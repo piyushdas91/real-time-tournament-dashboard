@@ -1,8 +1,15 @@
 {
   "dependencies": {
+    "@tanstack/query-sync-storage-persister": "^5.83.0",
+    "@tanstack/react-query": "^5.83.0",
+    "@tanstack/react-query-persist-client": "^5.83.0",
+    "clsx": "^2.1.1",
+    "keen-slider": "^6.8.6",
     "next": "^15.3.5",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-virtualized": "^9.22.6"
   },
   "scripts": {
     "dev": "next dev",

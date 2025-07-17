@@ -5,13 +5,19 @@
 //     venue: string;
 //     time: string;
 //   };
+
+import Image from "next/image";
+import MatchInfo from "./match-schedule/matchInfo";
+import MatchResult from "./match-schedule/matchResult";
   
   export default function ScheduleCard({ match }) {
     return (
-      <div className="bg-white p-3 rounded-lg shadow-sm border text-sm mb-2 transition hover:shadow-md">
-        <div>🗓️ {match.MatchDateNew}: {match.MatchName}</div>
-        <div className="text-gray-500">📍 {match.GroundName} | {match.MatchTime}</div>
-      </div>
+      <div className="bg-white shadow-md rounded-md overflow-hidden flex flex-row md:flex-row w-full max-w-4xl mx-auto">
+      {/* Left Status Column */}
+      <MatchInfo matchOrder={match?.MatchOrder} matchComments={match?.Comments} />
+      {/* Right Match Info Column */}
+      <MatchResult match={match} />
+    </div>
     );
   }
   
