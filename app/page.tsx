@@ -141,29 +141,6 @@ export default function HomePage() {
         {/* Schedule Section */}
         <SectionTitle>Match Schedule</SectionTitle>
         <div className="space-y-2">
-          {/* {matchSchedule.map((match, index) => (
-          <ScheduleCard key={index} match={match} />
-        ))} */}
-          {/* <InfiniteScroll
-            key={matchSchedule.length} 
-            dataLength={visibleMatches.length}
-            next={fetchMoreMatches}
-            hasMore={visibleMatches.length < matchSchedule.length}
-            loader={
-              <p className="text-center text-gray-500">
-                Loading more matches...
-              </p>
-            }
-            endMessage={
-              <p className="text-center text-green-600">
-                You've reached the end!
-              </p>
-            }
-          >
-            {visibleMatches.map((match, index) => (
-              <ScheduleCard key={index} match={match} />
-            ))}
-          </InfiniteScroll> */}
           {matchSchedule.length > 0 && (
             <div style={{ height: 500 }}>
               {" "}
