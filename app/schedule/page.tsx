@@ -4,17 +4,8 @@ import { useEffect, useState } from "react";
 import { List, AutoSizer } from "react-virtualized";
 import ScheduleCard from "../components/ScheduleCard";
 import IPLDashboardHeader from "../components/header";
-import SectionTitle from "../components/SectionTitle";
 import SectionHeader from "../components/sectionHeader";
 const baseURL = `/api/scrape?`;
-
-type Match = {
-  id: string;
-  team1: string;
-  team2: string;
-  date: string;
-  venue: string;
-};
 
 const MatchSchedule = ({}) => {
   const [matchSchedule, setMatchSchedule] = useState([]);

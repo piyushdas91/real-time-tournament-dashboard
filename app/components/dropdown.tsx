@@ -11,11 +11,11 @@ import {
 
 interface SeasonSelectProps {
   label?: string;
-  value: string;
-  setValue: any;
-  setCompetitionCode: any;
+  value: string | number;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+//   setCompetitionCode?: any;
   options: string[];
-  onChange: any;
+  onChange: (event: SelectChangeEvent) => void;
   width?: number | string;
   size?: "small" | "medium";
 }
@@ -23,18 +23,16 @@ interface SeasonSelectProps {
 const Dropdown: React.FC<SeasonSelectProps> = ({
   label,
   value,
-  setValue,
-  setCompetitionCode,
   options,
   onChange,
   width = 100,
   size = "small",
 }) => {
-  const handleChange = (event: SelectChangeEvent) => {
-    // console.log(event.target.value);
+//   const handleChange = (event: SelectChangeEvent) => {
+//     // console.log(event.target.value);
     
-    setValue(event.target.value);
-  };
+//     setValue(event.target.value);
+//   };
 
   return (
     <div className="py-4">

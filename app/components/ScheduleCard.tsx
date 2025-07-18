@@ -6,7 +6,6 @@
 //     time: string;
 //   };
 
-import Image from "next/image";
 import MatchInfo from "./match-schedule/matchInfo";
 import MatchResult from "./match-schedule/matchResult";
   
