@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import "react-virtualized/styles.css"; // Optional default styles
 import SectionHeader from "./components/sectionHeader";
 import HomePageScheduleCard from "./components/match-schedule/homePageScheduleCard";
+import SkeletonLoader from "./components/loader";
 
 const baseURL = `/api/scrape?`;
 
@@ -56,15 +57,15 @@ export default function HomePage() {
     }
   }, [data]);
 
-  if (isLoading) return <p>Loading schedule...</p>;
+  if (isLoading) return <p><SkeletonLoader /></p>;
   if (error) return <p>Error loading schedule</p>;
 
   return (
     // <main className="min-h-screen bg-gray-50 px-4 pt-4 pb-8 space-y-6 max-w-md sm:max-w-xl md:max-w-2xl mx-auto">
-    <main className="min-h-screen bg-gray-200 space-y-6 mx-auto">
+    <main className="bg-[url('/images/ipl-bg-2.jpg')] bg-cover bg-center w-full space-y-6 mx-auto">
       <IPLDashboardHeader header={"Home"} />
       {/* Live Match Section */}
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 md:px-30">
         <SectionHeader header={"Matches"} />
         <LiveMatchCard />
         {/* Points Table Section */}

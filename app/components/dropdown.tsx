@@ -3,7 +3,6 @@
 import React from "react";
 import {
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
@@ -45,12 +44,12 @@ const Dropdown: React.FC<SeasonSelectProps> = ({
         borderRadius: "8px",
       }}
     >
-      <InputLabel id={`${label}-label`}>{label}</InputLabel>
+      {/* <InputLabel id={`${label}-label`}>{label}</InputLabel> */}
       <Select
         labelId={`${label}-label`}
         id={`${label}-select`}
         value={value}
-        label={label}
+        // label={label}
         onChange={onChange}
       >
         {options.map((opt) => (

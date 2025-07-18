@@ -43,7 +43,7 @@ export default function LiveMatch() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 30000); // ⏱️ Now 10 seconds
+    const interval = setInterval(fetchData, 15000); // ⏱️ Now 10 seconds
   return () => clearInterval(interval);
     // const interval = setInterval(fetchData, 30000); // 30s refresh
     // return () => clearInterval(interval);
@@ -92,7 +92,7 @@ export default function LiveMatch() {
             </div>
 
             <div
-              className={`text-sm font-semibold ${
+              className={`text-xs font-semibold ${
                 match.runningStatus === "LIVE"
                   ? "text-red-500"
                   : match.runningStatus === "COMPLETED"
@@ -105,7 +105,7 @@ export default function LiveMatch() {
                 : match.status}
             </div>
 
-            <div className="text-xs text-gray-400 mt-1">{match.venue}</div>
+            <div className="text-xs font-bold text-gray-700 mt-1">{match.venue}</div>
           </div>
         </div>
       ))}

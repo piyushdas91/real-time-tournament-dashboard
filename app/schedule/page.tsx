@@ -5,6 +5,7 @@ import { List, AutoSizer } from "react-virtualized";
 import ScheduleCard from "../components/ScheduleCard";
 import IPLDashboardHeader from "../components/header";
 import SectionHeader from "../components/sectionHeader";
+import SkeletonLoader from "../components/loader";
 const baseURL = `/api/scrape?`;
 
 const MatchSchedule = ({}) => {
@@ -46,12 +47,12 @@ const MatchSchedule = ({}) => {
     );
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><SkeletonLoader /></div>;
   if (isError) return <div>Error loading schedule</div>;
   console.log(data);
   
     return (
-      <main className="min-h-screen bg-gray-200 space-y-6 mx-auto ">
+      <main className="bg-[url('/images/ipl-bg-2.jpg')] bg-cover bg-center w-full space-y-6 mx-auto ">
       <IPLDashboardHeader header="matches" />
       {/* Live Match Section */}
       
