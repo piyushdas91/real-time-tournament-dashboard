@@ -15,24 +15,36 @@ import { useQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { List, AutoSizer } from "react-virtualized";
 import "react-virtualized/styles.css"; // Optional default styles
+import SectionHeader from "./components/sectionHeader";
+import HomePageScheduleCard from "./components/match-schedule/homePageScheduleCard";
 
 const baseURL = `/api/scrape?`;
 
 export default function HomePage() {
-  const [matchSchedule, setMatchSchedule] = useState<>([]);
-  const [standings, setStandings] = useState<>([]);
-  const [loading, setLoading] = useState<>(true);
+  const [matchSchedule, setMatchSchedule] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [competitionData, setCompetitionData] = useState([]);
+  const [divisionData, setDivisionData] = useState([]);
 
-  const ITEMS_PER_LOAD = 3;
-  const [visibleMatches, setVisibleMatches] = useState([]);
-
-  const fetchMoreMatches = () => {
-    console.log(visibleMatches);
-
-    const nextLength = visibleMatches.length + ITEMS_PER_LOAD;
-    const nextMatches = matchSchedule.slice(0, nextLength);
-    setVisibleMatches(nextMatches);
+  const fetchCompetitionData = async () => {
+    try {
+      const response = await fetch(`${baseURL}type=competition`);
+      const json = await response.json();
+      // console.log(json.data);
+      const seasons = json.data.division
+        .filter((ele) => parseInt(ele.SeasonName) > 2021)
+        .map((ele) => ele.SeasonName);
+      // console.log(json.data.division.map((ele) => ele.SeasonName));
+      setCompetitionData(json?.data?.competition);
+      setDivisionData(seasons);
+    } catch (err) {
+      console.error(err);
+    }
   };
+
+  useEffect(() => {
+    fetchCompetitionData();
+  }, []);
 
   // React query + persistence to cache schedule for 24 hours in localstorage
   const { data, isLoading, error } = useQuery({
@@ -45,65 +57,13 @@ export default function HomePage() {
   });
 
   useEffect(() => {
-    fetchPointsTable();
-    // getMatchSchedule();
-  }, []);
-
-  // Sync fetched schedule to local state (for rendering)
-  useEffect(() => {
     if (data?.data?.Matchsummary) {
-      const schedule = data.data.Matchsummary;
+      console.log(data);
+
+      const schedule = data?.data?.Matchsummary;
       setMatchSchedule(schedule);
-      setVisibleMatches(schedule.slice(0, ITEMS_PER_LOAD));
     }
   }, [data]);
-
-  const getMovementIcon = (movement: string) => {
-    if (movement === "UP") return "▲";
-    if (movement === "DOWN") return "▼";
-    return "–";
-  };
-
-  const fetchPointsTable = async () => {
-    try {
-      const response = await fetch(`${baseURL}type=points`);
-      const json = await response.json();
-      // console.log(json.data);
-      const transformed = json?.data?.points.map(
-        (team: any, index: number) => ({
-          position: index + 1,
-          teamShortName: team.TeamCode,
-          teamLogoUrl: team.TeamLogo,
-          played: team.Matches,
-          won: team.Wins,
-          lost: team.Loss,
-          noResult: team.NoResult,
-          netRunRate: parseFloat(team.NetRunRate),
-          for: team.ForTeams,
-          against: team.AgainstTeam,
-          points: team.Points,
-          recentForm: team.Performance?.split(",") ?? [],
-          qualifier: team.Qualifier === "true",
-          status: team.Status,
-        })
-      );
-      setStandings(transformed);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getMatchSchedule = async () => {
-    try {
-      const response = await fetch(`${baseURL}type=schedule`);
-      const json = await response.json();
-      console.log(json.data);
-      return json;
-      // setMatchSchedule(json?.data?.Matchsummary);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const rowRenderer = ({
     key,
@@ -116,7 +76,7 @@ export default function HomePage() {
   }) => {
     const match = matchSchedule[index];
     // console.log(match);
-    
+
     return (
       <div key={key} style={style}>
         <ScheduleCard match={match} />
@@ -129,39 +89,21 @@ export default function HomePage() {
 
   return (
     // <main className="min-h-screen bg-gray-50 px-4 pt-4 pb-8 space-y-6 max-w-md sm:max-w-xl md:max-w-2xl mx-auto">
-    <main className="min-h-screen bg-gray-50 space-y-6 mx-auto">
-      <IPLDashboardHeader />
+    <main className="min-h-screen bg-gray-200 space-y-6 mx-auto">
+      <IPLDashboardHeader header={"Home"} />
       {/* Live Match Section */}
-      <div className="px-2">
-        <SectionTitle>Live / Upcoming Match</SectionTitle>
+      <div className="px-4 pb-4">
+        <SectionHeader header={"Matches"} />
         <LiveMatchCard />
         {/* Points Table Section */}
-        <SectionTitle>Points Table</SectionTitle>
-        <PointsTableCard standings={standings} />
-        {/* Schedule Section */}
-        <SectionTitle>Match Schedule</SectionTitle>
-        <div className="space-y-2">
-          {matchSchedule.length > 0 && (
-            <div style={{ height: 500 }}>
-              {" "}
-              {/* Set height as needed */}
-              <AutoSizer>
-                {({ height, width }) => (
-                  <List
-                    width={width}
-                    height={height}
-                    rowCount={matchSchedule.length}
-                    rowHeight={250} // Adjust this based on your ScheduleCard height
-                    rowRenderer={rowRenderer}
-                    onRowsRendered={({ startIndex, stopIndex }) => {
-                      const visibleItems = stopIndex - startIndex + 1;
-                      console.log("Visible items in viewport:", visibleItems);
-                    }}
-                  />
-                )}
-              </AutoSizer>
-            </div>
-          )}
+        <SectionHeader header={"Points Table"} />
+        <PointsTableCard
+          competition={competitionData}
+          division={divisionData}
+        />
+        <div className="py-2">
+          <SectionHeader header={"Match Schedule"} />
+          <HomePageScheduleCard matches={matchSchedule} />
         </div>
       </div>
     </main>
