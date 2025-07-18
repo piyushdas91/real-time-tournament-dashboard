@@ -86,3 +86,38 @@ To summarise:
 ---
 
 Additionally, implemented 'React query + persistence' using localStorage to cache match schedule data as schedule is not likely to change.
+
+
+## 🐞 Challenges Faced During Scraping/Fetching Data
+
+While building the data layer for the IPL Dashboard, the following challenges were encountered:
+
+### 1. 🔐 Lack of Official Public API
+- The official IPL website (`iplt20.com`) does not provide an authenticated or documented public API.
+- We had to rely on reverse-engineering embedded API calls used internally by the website.
+
+### 2. 🔍 Obscured Data Sources
+- The JSON endpoints are buried deep inside third-party hosting (AWS S3 buckets).
+- It required careful inspection of the Network tab during site load to discover the actual data URLs.
+
+### 3. ⚠️ Inconsistent Data Structure
+- The match schedule and results API serves a mixture of completed, live, and upcoming matches.
+- The points table API has inconsistent response structure which leads to API failure for certain selection of years.
+
+### 4. 🔄 No Real-Time Updates
+- Since the APIs are static JSONs updated periodically by IPL’s backend team, there's no WebSocket or live data stream.
+- To simulate live updates, we implemented a `simulateLiveData()` function with `setInterval` to update the frontend every 30 seconds.
+
+### 5. 🔄 API response data not intuitive
+- For match schedule, team scores for home and away and which team is home away is not present in a proper manner. 
+- Had to implement logic using toss details.
+
+### 6. 🧪 Testing and Edge Cases
+- Certain matches had missing scores, especially those not yet started or recently completed.
+- We had to handle conditional rendering to avoid crashing UI components during such cases.
+
+### 7. 📦 CORS and Direct Fetch Limitations (if client-side)
+- Direct client-side calls to `iplt20.com` JSONs would throw CORS errors.
+- To overcome this, we routed all API requests through Next.js server-side functions (`app/api`) which act as middleware.
+
+---
