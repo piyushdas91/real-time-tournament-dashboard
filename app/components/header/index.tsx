@@ -1,35 +1,29 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
+import Link from "next/link";
 // import { Search } from 'lucide-react';
 
-export default function IPLDashboardHeader() {
+export default function IPLDashboardHeader({ header }) {
   return (
-    <div className="w-full">
-      {/* Top Blue Bar */}
-      <div className="bg-[#003B8F] flex items-center justify-between px-4 py-2 text-white">
-        {/* Logo */}
+    <header className="sticky top-0 z-10 backdrop-blur-md bg-[#003B8F] border-b border-gray-200 shadow-sm">
+      <div className="max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center gap-2 h-10">
           {/* <img src="/images/ipl-logo.png" /> */}
-          <Image
-            src="/images/ipl-logo.png" // Replace with your actual logo path or remote URL
-            alt="IPL Logo"
-            width={60}
-            height={60}
-          />
-          {/* <span className="uppercase font-semibold text-sm">Indian Premier League</span> */}
+          <Link href="/">
+            <Image
+              src="/images/ipl-logo.png" // Replace with your actual logo path or remote URL
+              alt="IPL Logo"
+              width={60}
+              height={60}
+            />
+          </Link>
+
+          <span className="uppercase text-white text-center font-semibold text-md">
+            {header}
+          </span>
         </div>
       </div>
-
-      {/* Breadcrumb */}
-      <div className="bg-[#0A2D6A] text-white text-sm px-4 py-1">
-        Home <span className="text-gray-300">/</span> Points Table
-      </div>
-
-      {/* Heading */}
-      <div className="bg-[#0A1E3D] px-4 py-3 text-white text-lg font-bold uppercase">
-        Points Table
-      </div>
-    </div>
+    </header>
   );
 }

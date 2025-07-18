@@ -10,15 +10,16 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url);
     const type = searchParams.get('type');
+    const competitonCode = searchParams.get('code');
 
     //serve cache data if still fresh
-    if (cache && now - lastFetchTime < CACHE_DURATION && type == "points") {
-        return NextResponse.json({data: cache, cached: true});
-    }
+    // if (cache && now - lastFetchTime < CACHE_DURATION && type == "points") {
+    //     return NextResponse.json({data: cache, cached: true});
+    // }
 
     try {
         if (type === 'points') {
-            const data = await fetchPointsTable();
+            const data = await fetchPointsTable(competitonCode);
             // update cache
             cache = data;
             lastFetchTime = now;
@@ -26,6 +27,10 @@ export async function GET(req: Request) {
         }
         if (type === 'schedule') {
             const data = await fetchMatchSchedule();
+            return NextResponse.json({ success: true, data });
+        }
+        if (type === 'competition') {
+            const data = await fetchCompetitionData();
             return NextResponse.json({ success: true, data });
         }
         // if (type === 'pointsTable') {
@@ -48,8 +53,22 @@ export async function GET(req: Request) {
 
 // Fetching functions
 
-async function fetchPointsTable() {
-    const url = 'https://ipl-stats-sports-mechanic.s3.ap-south-1.amazonaws.com/ipl/feeds/stats/203-groupstandings.js?ongroupstandings=_jqjsp&_1752653829192=';
+async function fetchCompetitionData() {
+    const url = 'https://ipl-stats-sports-mechanic.s3.ap-south-1.amazonaws.com/ipl/mc/competition.js?callback=oncomptetion&_=1752761240369';
+    const res = await fetch(url);
+        const text = await res.text();
+        const jsonText = text.replace(/^oncomptetion\(/, '').replace(/\);$/, '');
+        const data = JSON.parse(jsonText);
+        //console.log(data);
+        return data;
+}
+
+async function fetchPointsTable(competitonCode) {
+    console.log(competitonCode);
+    
+    const url = `https://ipl-stats-sports-mechanic.s3.ap-south-1.amazonaws.com/ipl/feeds/stats/${competitonCode}-groupstandings.js?ongroupstandings=_jqjsp&_1752653829192=`;
+    console.log(url);
+    
         const res = await fetch(url);
         const text = await res.text();
         const jsonText = text.replace(/^ongroupstandings\(/, '').replace(/\);$/, '');

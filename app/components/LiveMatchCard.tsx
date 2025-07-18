@@ -1,7 +1,7 @@
 // app/components/LiveMatch.tsx
 'use client';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { teamLogos } from '../data/dummyData';
@@ -10,10 +10,10 @@ export default function LiveMatch() {
   const [matchData, setMatchData] = useState<any>(null);
 
   const [sliderRef] = useKeenSlider<HTMLDivElement>({
-    loop: false,
-    // mode: "free-snap",
+    // loop: true,
+    mode: "free-snap",
     slides: {
-      perView: 1,
+      perView: 2,
       spacing: 16,
     },
   });
@@ -58,7 +58,7 @@ export default function LiveMatch() {
     <div ref={sliderRef} className="keen-slider py-2">
       {matchData.map((match) => (
         <div key={match.id} className="keen-slider__slide">
-          <div className="bg-white rounded-xl shadow p-4 w-[90vw] max-w-md mx-auto">
+          <div className="rounded-2xl shadow-md bg-white p-4 border border-gray-100 hover:shadow-lg transition duration-300">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2">
                 <Image
