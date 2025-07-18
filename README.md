@@ -4,6 +4,8 @@ A responsive IPL dashboard built with **Next.js 15 App Router**, **Tailwind CSS*
 
 ---
 
+Deployed URL to access application - https://real-time-tournament-dashboard.vercel.app/
+
 ## 🚀 Features
 
 * Live match updates with fallback to next or previous match
@@ -12,7 +14,7 @@ A responsive IPL dashboard built with **Next.js 15 App Router**, **Tailwind CSS*
 * Data caching with React Query + localStorage persistence
 * Keen-slider integration for interactive UI
 * Serverless API routes (via `app/api`)
-* Deployed to Netlify
+* Deployed to Vercel
 
 ---
 
