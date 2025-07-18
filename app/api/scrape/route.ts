@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 
-let cache: any = null;
-let lastFetchTime = 0;
-const CACHE_DURATION = 120 * 60 * 1000;
+// let cache: any = null;
+// let lastFetchTime = 0;
+// const CACHE_DURATION = 120 * 60 * 1000;
 
 export async function GET(req: Request) {
 
-    const now = Date.now();
+    // const now = Date.now();
 
     const { searchParams } = new URL(req.url);
     const type = searchParams.get('type');
@@ -21,8 +21,8 @@ export async function GET(req: Request) {
         if (type === 'points') {
             const data = await fetchPointsTable(competitonCode);
             // update cache
-            cache = data;
-            lastFetchTime = now;
+            // cache = data;
+            // lastFetchTime = now;
             return NextResponse.json({ success: true, data });
         }
         if (type === 'schedule') {

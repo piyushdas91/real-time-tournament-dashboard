@@ -1,13 +1,13 @@
 // app/components/LiveMatch.tsx
 'use client';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { teamLogos } from '../data/dummyData';
 
 export default function LiveMatch() {
-  const [matchData, setMatchData] = useState<any>(null);
+  const [matchData, setMatchData] = useState(null);
 
   const [sliderRef] = useKeenSlider<HTMLDivElement>({
     // loop: true,
@@ -25,9 +25,9 @@ export default function LiveMatch() {
       const matches = data?.data;
       // console.log(matches);
       
-      const liveMatches = matches.filter((m: any) => m.runningStatus === 'LIVE');
-      const upcomingMatches = matches.filter((m: any) => m.runningStatus === 'UPCOMING');
-      const completedMatches = matches.filter((m: any) => m.runningStatus === 'COMPLETED');
+      const liveMatches = matches.filter((m) => m.runningStatus === 'LIVE');
+      const upcomingMatches = matches.filter((m) => m.runningStatus === 'UPCOMING');
+      const completedMatches = matches.filter((m) => m.runningStatus === 'COMPLETED');
       // console.log(live, upcoming, last);
       const prioritizedMatches =
       liveMatches.length > 0

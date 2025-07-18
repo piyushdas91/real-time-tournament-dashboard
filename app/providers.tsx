@@ -3,8 +3,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect, useState } from "react";
 import { createSyncStoragePersister } from "./lib/storagePersister";
-import { persistQueryClient } from "@tanstack/react-query-persist-client";
-import { queryClient } from "./lib/queryClient";
 
 export function ReactQueryProviders({children} : {children: ReactNode}) {
     const [clientReady, setClientReady] = useState(false);

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import PointsTableHeader from "./points-table/pointsTableHeader";
 import PointsTableRow from "./points-table/tableRow";
 import Dropdown from "./dropdown";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 const baseURL = `/api/scrape?`;
 const PointsTableCard = ({ competition, division }) => {
@@ -14,7 +14,7 @@ const PointsTableCard = ({ competition, division }) => {
   // console.log(seasons);
 
   const [season, setSeason] = useState("2025");
-  const [competitionCode, setCompetionCode] = useState("203");
+  // const [competitionCode, setCompetionCode] = useState("203");
   const [standings, setStandings] = useState([]);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const PointsTableCard = ({ competition, division }) => {
       const json = await response.json();
       // console.log(json.data);
       const transformed = json?.data?.points.map(
-        (team: any, index: number) => ({
+        (team, index: number) => ({
           position: index + 1,
           teamShortName: team.TeamCode,
           teamLogoUrl: team.TeamLogo,
@@ -59,7 +59,7 @@ const PointsTableCard = ({ competition, division }) => {
     // getMatchSchedule();
   }, [season]);
 
-  const handleSeasonChange = (event) => {
+  const handleSeasonChange = (event: SelectChangeEvent) => {
     setSeason(event.target.value);
   };
 
@@ -70,7 +70,7 @@ const PointsTableCard = ({ competition, division }) => {
         value={season}
         onChange={handleSeasonChange}
         setValue={setSeason}
-        setCompetitionCode={setCompetionCode}
+        // setCompetitionCode={setCompetionCode}
         options={seasons}
       />
       <div className="w-full mx-auto mb-4 overflow-x-scroll border-solid border-1 border-gray-300 rounded-lg bg-gray-50">
